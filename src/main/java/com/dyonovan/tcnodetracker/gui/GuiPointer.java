@@ -63,6 +63,7 @@ public class GuiPointer extends Gui {
         GL11.glScaled(ConfigHandler.arrowSize, ConfigHandler.arrowSize, 1F);
         GL11.glTranslatef(-arrowWidth / 2, -arrowHeight / 2, 0);
 
+        GL11.glEnable(GL11.GL_BLEND);
         Tessellator tl = Tessellator.instance;
         tl.startDrawingQuads();
         tl.addVertexWithUV(0, 0, 0, 0, 0);
@@ -71,6 +72,7 @@ public class GuiPointer extends Gui {
         tl.addVertexWithUV(arrowWidth, 0, 0, 1, 0);
         tl.draw();
         GL11.glPopMatrix();
+        GL11.glDisable(GL11.GL_BLEND);
 
         int distancePL = (int) Math.round(this.mc.thePlayer.getDistance(TCNodeTracker.xMarker, mc.thePlayer.posY, TCNodeTracker.zMarker));
         String dirY = mc.thePlayer.posY > TCNodeTracker.yMarker ? StatCollector.translateToLocal("str.below.name") :
