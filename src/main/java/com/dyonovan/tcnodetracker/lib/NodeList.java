@@ -5,12 +5,12 @@ import java.util.HashMap;
 
 public class NodeList {
 
-    public HashMap<String,Integer> aspect;
+    public HashMap<String, Integer> aspect;
     public String type, mod;
     public int dim, x, y, z;
     public Date date;
 
-    public NodeList(HashMap<String,Integer> aspect, int dim, String type, String mod, int x, int y, int z, Date date) {
+    public NodeList(HashMap<String, Integer> aspect, int dim, String type, String mod, int x, int y, int z, Date date) {
 
         this.aspect = aspect;
         this.dim = dim;
@@ -21,5 +21,4 @@ public class NodeList {
         this.z = z;
         this.date = date;
     }
-
 }

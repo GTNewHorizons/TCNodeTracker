@@ -16,13 +16,11 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import org.lwjgl.opengl.GL11;
 import thaumcraft.api.IGoggles;
 
-
 public class GuiPointer extends Gui {
 
     private static final ResourceLocation arrow = new ResourceLocation("tcnodetracker:textures/gui/arrow.png");
     private static final ResourceLocation altArrow = new ResourceLocation("tcnodetracker:textures/gui/arrow2.png");
     private Minecraft mc;
-
 
     public GuiPointer(Minecraft mc) {
         super();
@@ -35,10 +33,12 @@ public class GuiPointer extends Gui {
     public void onRender(RenderGameOverlayEvent event) {
 
         final int arrowWidth = 64;
-        final int arrowHeight= 64;
+        final int arrowHeight = 64;
 
-        if (event.isCancelable() || event.type != ElementType.EXPERIENCE || !TCNodeTracker.doGui ||
-                this.mc.thePlayer.inventory.armorItemInSlot(3) == null){
+        if (event.isCancelable()
+                || event.type != ElementType.EXPERIENCE
+                || !TCNodeTracker.doGui
+                || this.mc.thePlayer.inventory.armorItemInSlot(3) == null) {
             return;
         }
 
@@ -46,13 +46,13 @@ public class GuiPointer extends Gui {
             return;
         }
 
-        double direction = (Math.toDegrees(Math.atan2(TCNodeTracker.xMarker - this.mc.thePlayer.posX,
-                TCNodeTracker.zMarker - this.mc.thePlayer.posZ))) + this.mc.thePlayer.rotationYaw;
+        double direction = (Math.toDegrees(Math.atan2(
+                        TCNodeTracker.xMarker - this.mc.thePlayer.posX,
+                        TCNodeTracker.zMarker - this.mc.thePlayer.posZ)))
+                + this.mc.thePlayer.rotationYaw;
 
-        if (!ConfigHandler.altArrow)
-            this.mc.getTextureManager().bindTexture(arrow);
-        else
-            this.mc.getTextureManager().bindTexture(altArrow);
+        if (!ConfigHandler.altArrow) this.mc.getTextureManager().bindTexture(arrow);
+        else this.mc.getTextureManager().bindTexture(altArrow);
         ScaledResolution scaledresolution = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
         double width = scaledresolution.getScaledWidth();
 
@@ -72,23 +72,26 @@ public class GuiPointer extends Gui {
         tl.draw();
         GL11.glPopMatrix();
 
-        int distancePL = (int) Math.round(this.mc.thePlayer.getDistance(TCNodeTracker.xMarker, mc.thePlayer.posY, TCNodeTracker.zMarker));
-        String dirY = mc.thePlayer.posY > TCNodeTracker.yMarker ? StatCollector.translateToLocal("str.below.name") :
-                mc.thePlayer.posY == TCNodeTracker.yMarker ? StatCollector.translateToLocal("str.level.name") :
-                StatCollector.translateToLocal("str.above.name");
+        int distancePL = (int) Math.round(
+                this.mc.thePlayer.getDistance(TCNodeTracker.xMarker, mc.thePlayer.posY, TCNodeTracker.zMarker));
+        String dirY = mc.thePlayer.posY > TCNodeTracker.yMarker
+                ? StatCollector.translateToLocal("str.below.name")
+                : mc.thePlayer.posY == TCNodeTracker.yMarker
+                        ? StatCollector.translateToLocal("str.level.name")
+                        : StatCollector.translateToLocal("str.above.name");
         String blocks = Integer.toString(distancePL) + StatCollector.translateToLocal("str.blocks.name");
         int color = dirY.equals("Below") ? Constants.RED : dirY.equals("Level") ? Constants.WHITE : Constants.GREEN;
         FontRenderer fr = this.mc.fontRenderer;
 
         GL11.glPushMatrix();
-        GL11.glTranslated(width / 2 + ConfigHandler.arrowX,arrowHeight + (5 * ConfigHandler.arrowSize) + ConfigHandler.arrowY, 0);
+        GL11.glTranslated(
+                width / 2 + ConfigHandler.arrowX,
+                arrowHeight + (5 * ConfigHandler.arrowSize) + ConfigHandler.arrowY,
+                0);
         GL11.glScaled(ConfigHandler.arrowSize, ConfigHandler.arrowSize, 1F);
         GL11.glTranslatef(-fr.getStringWidth(blocks + " " + dirY), 0, 0);
 
-        fr.drawString(blocks + " - " + dirY, fr.getStringWidth(blocks + " " + dirY) / 2,
-                0, Constants.WHITE);
+        fr.drawString(blocks + " - " + dirY, fr.getStringWidth(blocks + " " + dirY) / 2, 0, Constants.WHITE);
         GL11.glPopMatrix();
-
-
     }
 }

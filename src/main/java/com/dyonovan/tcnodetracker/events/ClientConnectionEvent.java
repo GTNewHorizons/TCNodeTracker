@@ -5,11 +5,10 @@ import com.dyonovan.tcnodetracker.lib.JsonUtils;
 import com.dyonovan.tcnodetracker.lib.Utils;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent;
-import net.minecraft.client.Minecraft;
-import net.minecraft.server.integrated.IntegratedServer;
-
 import java.io.File;
 import java.net.InetSocketAddress;
+import net.minecraft.client.Minecraft;
+import net.minecraft.server.integrated.IntegratedServer;
 
 public class ClientConnectionEvent {
 
@@ -41,7 +40,5 @@ public class ClientConnectionEvent {
         TCNodeTracker.nodelist.clear();
 
         JsonUtils.readJson();
-
     }
-
 }

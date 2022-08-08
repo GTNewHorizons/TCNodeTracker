@@ -4,6 +4,9 @@ import com.dyonovan.tcnodetracker.TCNodeTracker;
 import com.dyonovan.tcnodetracker.lib.JsonUtils;
 import com.dyonovan.tcnodetracker.lib.NodeList;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -11,20 +14,16 @@ import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.nodes.INode;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-
 public class RightClickEvent {
 
     @SuppressWarnings({"unchecked", "unused"})
     @SubscribeEvent
     public void playerRightClick(PlayerInteractEvent event) {
 
-        if (event.isCanceled() || !event.entityPlayer.worldObj.isRemote ||
-                event.action != PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK ||
-                event.entityPlayer.inventory.getCurrentItem() == null) {
+        if (event.isCanceled()
+                || !event.entityPlayer.worldObj.isRemote
+                || event.action != PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK
+                || event.entityPlayer.inventory.getCurrentItem() == null) {
             return;
         }
 
@@ -52,8 +51,6 @@ public class RightClickEvent {
             if (((INode) i).getNodeModifier() != null) {
                 nodeMod = ((INode) i).getNodeModifier().toString();
             }
-
-
 
             if (TCNodeTracker.nodelist.size() != 0 || TCNodeTracker.nodelist != null) {
                 for (NodeList n : TCNodeTracker.nodelist) {

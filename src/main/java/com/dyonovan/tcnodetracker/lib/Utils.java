@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 public class Utils {
 
-    public final static Pattern patternInvalidChars = Pattern.compile("[^a-zA-Z0-9_]");
+    public static final Pattern patternInvalidChars = Pattern.compile("[^a-zA-Z0-9_]");
 
     public static String invalidChars(String s) {
 

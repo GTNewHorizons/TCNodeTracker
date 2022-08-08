@@ -18,17 +18,18 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.config.Configuration;
-
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.client.Minecraft;
+import net.minecraftforge.common.MinecraftForge;
 
 @SuppressWarnings("unused")
-@Mod(name = Constants.MODNAME, modid = Constants.MODID, version = Constants.VERSION, dependencies = Constants.DEPENDENCIES,
+@Mod(
+        name = Constants.MODNAME,
+        modid = Constants.MODID,
+        version = Constants.VERSION,
+        dependencies = Constants.DEPENDENCIES,
         acceptableRemoteVersions = "*")
-
 public class TCNodeTracker {
 
     public static String hostName;

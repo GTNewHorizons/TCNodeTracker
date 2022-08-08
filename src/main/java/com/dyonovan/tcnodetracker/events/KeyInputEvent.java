@@ -6,15 +6,13 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent;
 import net.minecraft.client.Minecraft;
 
-
 public class KeyInputEvent {
 
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event) {
 
-        if(KeyBindings.aspectMenu.isPressed()) {
+        if (KeyBindings.aspectMenu.isPressed()) {
             Minecraft.getMinecraft().displayGuiScreen(new GuiMain());
         }
-
     }
 }

@@ -4,7 +4,6 @@ import com.dyonovan.tcnodetracker.TCNodeTracker;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-
 import java.io.*;
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class JsonUtils {
             fw.write(json);
             fw.close();
         } catch (IOException e) {
-            //e.printStackTrace();
+            // e.printStackTrace();
             System.out.println(Constants.MODID + ": Could not write to nodes.json!");
         }
     }
@@ -30,12 +29,11 @@ public class JsonUtils {
         try {
             BufferedReader br = new BufferedReader(new FileReader(TCNodeTracker.hostName + "/nodes.json"));
             Gson gson = new Gson();
-            //TCNodeTracker.nodelist = gson.fromJson(br, TCNodeTracker.nodelist.getClass());
-            TCNodeTracker.nodelist = gson.fromJson(br, new TypeToken<List<NodeList>>(){}.getType());
+            // TCNodeTracker.nodelist = gson.fromJson(br, TCNodeTracker.nodelist.getClass());
+            TCNodeTracker.nodelist = gson.fromJson(br, new TypeToken<List<NodeList>>() {}.getType());
         } catch (FileNotFoundException e) {
-            //e.printStackTrace();
+            // e.printStackTrace();
             System.out.println(Constants.MODID + ": No nodes.json file found.");
         }
-
     }
 }

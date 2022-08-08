@@ -12,8 +12,22 @@ public class AspectLoc {
     public HashMap<String, Integer> compound;
     public Date date;
 
-    public AspectLoc(int x, int y, int z, int dimID, Date date, int distance, String type, String mod, int hasAer, int hasAqua, int hasIgnis,
-                     int hasOrdo, int hasPerdito, int hasTerra, HashMap<String, Integer> compound) {
+    public AspectLoc(
+            int x,
+            int y,
+            int z,
+            int dimID,
+            Date date,
+            int distance,
+            String type,
+            String mod,
+            int hasAer,
+            int hasAqua,
+            int hasIgnis,
+            int hasOrdo,
+            int hasPerdito,
+            int hasTerra,
+            HashMap<String, Integer> compound) {
         this.x = x;
         this.y = y;
         this.z = z;
