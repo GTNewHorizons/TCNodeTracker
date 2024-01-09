@@ -12,12 +12,12 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 
 import org.lwjgl.opengl.GL11;
 
-import thaumcraft.api.IGoggles;
-
 import com.dyonovan.tcnodetracker.TCNodeTracker;
 import com.dyonovan.tcnodetracker.handlers.ConfigHandler;
 import com.dyonovan.tcnodetracker.lib.Constants;
+
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import thaumcraft.api.IGoggles;
 
 public class GuiPointer extends Gui {
 

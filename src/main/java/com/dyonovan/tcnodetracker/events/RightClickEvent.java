@@ -9,14 +9,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
-import thaumcraft.api.aspects.Aspect;
-import thaumcraft.api.aspects.AspectList;
-import thaumcraft.api.nodes.INode;
-
 import com.dyonovan.tcnodetracker.TCNodeTracker;
 import com.dyonovan.tcnodetracker.lib.JsonUtils;
 import com.dyonovan.tcnodetracker.lib.NodeList;
+
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import thaumcraft.api.aspects.Aspect;
+import thaumcraft.api.aspects.AspectList;
+import thaumcraft.api.nodes.INode;
 
 public class RightClickEvent {
 

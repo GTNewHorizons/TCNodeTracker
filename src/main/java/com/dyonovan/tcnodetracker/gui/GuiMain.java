@@ -1,6 +1,11 @@
 package com.dyonovan.tcnodetracker.gui;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -14,7 +19,11 @@ import org.lwjgl.opengl.GL11;
 
 import com.dyonovan.tcnodetracker.TCNodeTracker;
 import com.dyonovan.tcnodetracker.bindings.KeyBindings;
-import com.dyonovan.tcnodetracker.lib.*;
+import com.dyonovan.tcnodetracker.lib.AspectLoc;
+import com.dyonovan.tcnodetracker.lib.Constants;
+import com.dyonovan.tcnodetracker.lib.DimList;
+import com.dyonovan.tcnodetracker.lib.JsonUtils;
+import com.dyonovan.tcnodetracker.lib.NodeList;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
