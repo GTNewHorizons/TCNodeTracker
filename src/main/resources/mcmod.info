@@ -11,9 +11,6 @@
 		"authorList": ["Dyonovan"],
 		"credits": "Azanor for Thaumcraft. Dominance28 for textures.",
 		"logoFile": "assets/tcnodetracker/textures/gui/arrow.png",
-		"screenshots": [],
-		"requiredMods": ["Forge@[10.12.1.1112,)", "Thaumcraft"],
-		"dependencies": ["Thaumcraft"],
-		"useDependencyInformation": true
+		"screenshots": []
 	}]
 }
