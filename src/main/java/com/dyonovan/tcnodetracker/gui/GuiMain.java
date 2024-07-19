@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.dyonovan.tcnodetracker.integration.navigator.ThaumcraftNodeLayerManager;
-import com.gtnewhorizons.navigator.api.model.waypoints.Waypoint;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -22,11 +20,13 @@ import org.lwjgl.opengl.GL11;
 
 import com.dyonovan.tcnodetracker.TCNodeTracker;
 import com.dyonovan.tcnodetracker.bindings.KeyBindings;
+import com.dyonovan.tcnodetracker.integration.navigator.ThaumcraftNodeLayerManager;
 import com.dyonovan.tcnodetracker.lib.AspectLoc;
 import com.dyonovan.tcnodetracker.lib.Constants;
 import com.dyonovan.tcnodetracker.lib.DimList;
 import com.dyonovan.tcnodetracker.lib.JsonUtils;
 import com.dyonovan.tcnodetracker.lib.NodeList;
+import com.gtnewhorizons.navigator.api.model.waypoints.Waypoint;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -125,7 +125,7 @@ public class GuiMain extends GuiScreen {
     protected void actionPerformed(GuiButton button) {
 
         if (button.id == this.buttonList.size() - 2) {
-            if(TCNodeTracker.isNavigatorLoaded) {
+            if (TCNodeTracker.isNavigatorLoaded) {
                 ThaumcraftNodeLayerManager.instance.clearActiveWaypoint();
             }
             TCNodeTracker.doGui = false;
@@ -141,13 +141,12 @@ public class GuiMain extends GuiScreen {
             for (int k = 0; k < TCNodeTracker.nodelist.size(); k++) {
                 for (int j = low; j < high; j++) {
                     final AspectLoc aspect = GuiMain.aspectList.get(low + i);
-                    if (TCNodeTracker.nodelist.get(k).x == aspect.x
-                            && TCNodeTracker.nodelist.get(k).y == aspect.y
+                    if (TCNodeTracker.nodelist.get(k).x == aspect.x && TCNodeTracker.nodelist.get(k).y == aspect.y
                             && TCNodeTracker.nodelist.get(k).z == aspect.z) {
                         if (TCNodeTracker.doGui && TCNodeTracker.xMarker == aspect.x
                                 && TCNodeTracker.yMarker == aspect.y
                                 && TCNodeTracker.zMarker == aspect.z) {
-                            if(TCNodeTracker.isNavigatorLoaded) {
+                            if (TCNodeTracker.isNavigatorLoaded) {
                                 ThaumcraftNodeLayerManager.instance.clearActiveWaypoint();
                             }
                             TCNodeTracker.doGui = false;
@@ -171,15 +170,15 @@ public class GuiMain extends GuiScreen {
             TCNodeTracker.yMarker = aspect.y;
             TCNodeTracker.zMarker = aspect.z;
 
-            if(TCNodeTracker.isNavigatorLoaded) {
+            if (TCNodeTracker.isNavigatorLoaded) {
                 ThaumcraftNodeLayerManager.instance.setActiveWaypoint(
-                    new Waypoint(
-                        aspect.x,
-                        aspect.y,
-                        aspect.z,
-                        aspect.dimID,
-                        I18n.format("tcnodetracker.tracked", I18n.format("tile.blockAiry.0.name")),
-                        0xFFFFFF));
+                        new Waypoint(
+                                aspect.x,
+                                aspect.y,
+                                aspect.z,
+                                aspect.dimID,
+                                I18n.format("tcnodetracker.tracked", I18n.format("tile.blockAiry.0.name")),
+                                0xFFFFFF));
             }
 
             aspectList.clear();

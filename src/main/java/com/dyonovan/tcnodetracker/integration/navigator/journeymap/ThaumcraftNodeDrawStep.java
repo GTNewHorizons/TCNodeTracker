@@ -1,5 +1,15 @@
 package com.dyonovan.tcnodetracker.integration.navigator.journeymap;
 
+import java.awt.geom.Point2D;
+import java.util.List;
+
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
 import com.dyonovan.tcnodetracker.integration.navigator.ThaumcraftNodeLayerManager;
 import com.dyonovan.tcnodetracker.integration.navigator.ThaumcraftNodeLocation;
 import com.dyonovan.tcnodetracker.lib.Constants;
@@ -7,17 +17,10 @@ import com.dyonovan.tcnodetracker.lib.Utils;
 import com.gtnewhorizons.navigator.api.journeymap.drawsteps.JMInteractableStep;
 import com.gtnewhorizons.navigator.api.model.locations.IWaypointAndLocationProvider;
 import com.gtnewhorizons.navigator.api.util.DrawUtils;
+
 import journeymap.client.render.map.GridRenderer;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.client.lib.UtilsFX;
-
-import java.awt.geom.Point2D;
-import java.util.List;
 
 public class ThaumcraftNodeDrawStep implements JMInteractableStep {
 
@@ -25,7 +28,7 @@ public class ThaumcraftNodeDrawStep implements JMInteractableStep {
             Constants.MODID,
             "textures/gui/node_marked.png");
     private static final ResourceLocation unmarkedTextureLocation = new ResourceLocation(
-        Constants.MODID,
+            Constants.MODID,
             "textures/gui/node_unmarked.png");
 
     private final ThaumcraftNodeLocation thaumcraftNodeLocation;

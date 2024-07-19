@@ -1,5 +1,14 @@
 package com.dyonovan.tcnodetracker.integration.navigator.xaero;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.opengl.GL11;
+
 import com.dyonovan.tcnodetracker.integration.navigator.ThaumcraftNodeLayerManager;
 import com.dyonovan.tcnodetracker.integration.navigator.ThaumcraftNodeLocation;
 import com.dyonovan.tcnodetracker.lib.Constants;
@@ -7,14 +16,9 @@ import com.dyonovan.tcnodetracker.lib.Utils;
 import com.gtnewhorizons.navigator.api.model.locations.IWaypointAndLocationProvider;
 import com.gtnewhorizons.navigator.api.util.DrawUtils;
 import com.gtnewhorizons.navigator.api.xaero.rendersteps.XaeroInteractableStep;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
+
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.client.lib.UtilsFX;
-
-import javax.annotation.Nullable;
-import java.util.List;
 
 public class ThaumcraftNodeRenderStep implements XaeroInteractableStep {
 
@@ -22,7 +26,7 @@ public class ThaumcraftNodeRenderStep implements XaeroInteractableStep {
             Constants.MODID,
             "textures/gui/node_marked.png");
     private static final ResourceLocation unmarkedTextureLocation = new ResourceLocation(
-        Constants.MODID,
+            Constants.MODID,
             "textures/gui/node_unmarked.png");
 
     private final ThaumcraftNodeLocation thaumcraftNodeLocation;

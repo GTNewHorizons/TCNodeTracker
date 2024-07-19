@@ -3,8 +3,6 @@ package com.dyonovan.tcnodetracker;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dyonovan.tcnodetracker.integration.navigator.NavigatorIntegration;
-import cpw.mods.fml.common.Loader;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -17,11 +15,13 @@ import com.dyonovan.tcnodetracker.events.KeyInputEvent;
 import com.dyonovan.tcnodetracker.events.RightClickEvent;
 import com.dyonovan.tcnodetracker.gui.GuiPointer;
 import com.dyonovan.tcnodetracker.handlers.ConfigHandler;
+import com.dyonovan.tcnodetracker.integration.navigator.NavigatorIntegration;
 import com.dyonovan.tcnodetracker.lib.Constants;
 import com.dyonovan.tcnodetracker.lib.DimList;
 import com.dyonovan.tcnodetracker.lib.NodeList;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -66,7 +66,7 @@ public class TCNodeTracker {
     @EventHandler
     public void init(FMLInitializationEvent event) {
         KeyBindings.init();
-        if(isNavigatorLoaded) {
+        if (isNavigatorLoaded) {
             NavigatorIntegration.init();
         }
     }

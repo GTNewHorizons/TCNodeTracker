@@ -1,5 +1,12 @@
 package com.dyonovan.tcnodetracker.integration.navigator;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Nullable;
+
+import net.minecraft.client.Minecraft;
+
 import com.dyonovan.tcnodetracker.TCNodeTracker;
 import com.dyonovan.tcnodetracker.integration.navigator.journeymap.JMThaumcraftNodeRenderer;
 import com.dyonovan.tcnodetracker.integration.navigator.journeymap.JMThaumcraftNodeWaypointManager;
@@ -11,11 +18,6 @@ import com.gtnewhorizons.navigator.api.model.layers.InteractableLayerManager;
 import com.gtnewhorizons.navigator.api.model.layers.LayerRenderer;
 import com.gtnewhorizons.navigator.api.model.locations.IWaypointAndLocationProvider;
 import com.gtnewhorizons.navigator.api.model.waypoints.WaypointManager;
-import net.minecraft.client.Minecraft;
-
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ThaumcraftNodeLayerManager extends InteractableLayerManager {
 
