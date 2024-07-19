@@ -33,7 +33,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @Mod(
         name = Constants.MODNAME,
         modid = Constants.MODID,
-        version = Constants.VERSION,
+        version = Tags.VERSION,
         dependencies = Constants.DEPENDENCIES,
         acceptableRemoteVersions = "*")
 public class TCNodeTracker {
