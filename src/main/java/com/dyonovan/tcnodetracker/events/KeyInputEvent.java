@@ -1,5 +1,7 @@
 package com.dyonovan.tcnodetracker.events;
 
+import com.dyonovan.tcnodetracker.TCNodeTracker;
+import com.dyonovan.tcnodetracker.integration.navigator.ThaumcraftNodeButtonManager;
 import net.minecraft.client.Minecraft;
 
 import com.dyonovan.tcnodetracker.bindings.KeyBindings;
@@ -15,6 +17,10 @@ public class KeyInputEvent {
 
         if (KeyBindings.aspectMenu.isPressed()) {
             Minecraft.getMinecraft().displayGuiScreen(new GuiMain());
+        }
+
+        if(TCNodeTracker.isNavigatorLoaded && KeyBindings.aspectMenu.isPressed()) {
+            ThaumcraftNodeButtonManager.instance.toggle();
         }
     }
 }

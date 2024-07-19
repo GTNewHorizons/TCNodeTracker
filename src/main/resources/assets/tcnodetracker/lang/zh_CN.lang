@@ -32,5 +32,10 @@ str.below.name=你的下方
 str.level.name=级别
 str.blocks.name= 方块
 
+tcnodetracker.node.deletehint=删除 %s
+tcnodetracker.button.nodes=显示灵气节点
+tcnodetracker.tracked=追踪: %s
+tcnodetracker.iswaypoint=作为导航点激活
+
 
 

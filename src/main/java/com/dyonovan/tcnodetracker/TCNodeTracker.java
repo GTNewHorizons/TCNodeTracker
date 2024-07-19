@@ -3,6 +3,8 @@ package com.dyonovan.tcnodetracker;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dyonovan.tcnodetracker.integration.navigator.NavigatorIntegration;
+import cpw.mods.fml.common.Loader;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -44,6 +46,7 @@ public class TCNodeTracker {
     public static boolean doGui = false;
     public static int xMarker, yMarker, zMarker;
     public static List<DimList> dims = new ArrayList<>();
+    public static boolean isNavigatorLoaded;
 
     @Instance(Constants.MODID)
     public static TCNodeTracker instance;
@@ -51,7 +54,7 @@ public class TCNodeTracker {
     @SideOnly(Side.CLIENT)
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-
+        isNavigatorLoaded = Loader.isModLoaded("navigator");
         ConfigHandler.init(event.getSuggestedConfigurationFile());
 
         MinecraftForge.EVENT_BUS.register(new RightClickEvent());
@@ -63,6 +66,9 @@ public class TCNodeTracker {
     @EventHandler
     public void init(FMLInitializationEvent event) {
         KeyBindings.init();
+        if(isNavigatorLoaded) {
+            NavigatorIntegration.init();
+        }
     }
 
     @SideOnly(Side.CLIENT)
