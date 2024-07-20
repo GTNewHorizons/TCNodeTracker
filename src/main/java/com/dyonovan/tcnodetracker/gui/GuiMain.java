@@ -10,6 +10,7 @@ import java.util.Map;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.WorldProvider;
@@ -19,11 +20,13 @@ import org.lwjgl.opengl.GL11;
 
 import com.dyonovan.tcnodetracker.TCNodeTracker;
 import com.dyonovan.tcnodetracker.bindings.KeyBindings;
+import com.dyonovan.tcnodetracker.integration.navigator.ThaumcraftNodeLayerManager;
 import com.dyonovan.tcnodetracker.lib.AspectLoc;
 import com.dyonovan.tcnodetracker.lib.Constants;
 import com.dyonovan.tcnodetracker.lib.DimList;
 import com.dyonovan.tcnodetracker.lib.JsonUtils;
 import com.dyonovan.tcnodetracker.lib.NodeList;
+import com.gtnewhorizons.navigator.api.model.waypoints.Waypoint;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -78,13 +81,7 @@ public class GuiMain extends GuiScreen {
                 }
             }
         }
-        Collections.sort(TCNodeTracker.dims, new Comparator<DimList>() {
-
-            @Override
-            public int compare(DimList o1, DimList o2) {
-                return o1.dimID - o2.dimID;
-            }
-        });
+        TCNodeTracker.dims.sort(Comparator.comparingInt(o -> o.dimID));
 
         dimID = Minecraft.getMinecraft().theWorld.provider.dimensionId;
 
@@ -92,7 +89,6 @@ public class GuiMain extends GuiScreen {
         guiButtons();
     }
 
-    @SuppressWarnings("unchecked")
     protected void guiButtons() {
         int x = 67;
         this.buttonList.clear();
@@ -129,6 +125,9 @@ public class GuiMain extends GuiScreen {
     protected void actionPerformed(GuiButton button) {
 
         if (button.id == this.buttonList.size() - 2) {
+            if (TCNodeTracker.isNavigatorLoaded) {
+                ThaumcraftNodeLayerManager.instance.clearActiveWaypoint();
+            }
             TCNodeTracker.doGui = false;
             TCNodeTracker.yMarker = -1;
             this.mc.displayGuiScreen(null);
@@ -141,12 +140,15 @@ public class GuiMain extends GuiScreen {
             int i = button.id / 2;
             for (int k = 0; k < TCNodeTracker.nodelist.size(); k++) {
                 for (int j = low; j < high; j++) {
-                    if (TCNodeTracker.nodelist.get(k).x == aspectList.get(low + i).x
-                            && TCNodeTracker.nodelist.get(k).y == aspectList.get(low + i).y
-                            && TCNodeTracker.nodelist.get(k).z == aspectList.get(low + i).z) {
-                        if (TCNodeTracker.doGui && TCNodeTracker.xMarker == aspectList.get(low + i).x
-                                && TCNodeTracker.yMarker == aspectList.get(low + i).y
-                                && TCNodeTracker.zMarker == aspectList.get(low + i).z) {
+                    final AspectLoc aspect = GuiMain.aspectList.get(low + i);
+                    if (TCNodeTracker.nodelist.get(k).x == aspect.x && TCNodeTracker.nodelist.get(k).y == aspect.y
+                            && TCNodeTracker.nodelist.get(k).z == aspect.z) {
+                        if (TCNodeTracker.doGui && TCNodeTracker.xMarker == aspect.x
+                                && TCNodeTracker.yMarker == aspect.y
+                                && TCNodeTracker.zMarker == aspect.z) {
+                            if (TCNodeTracker.isNavigatorLoaded) {
+                                ThaumcraftNodeLayerManager.instance.clearActiveWaypoint();
+                            }
                             TCNodeTracker.doGui = false;
                             TCNodeTracker.yMarker = -1;
                         }
@@ -162,10 +164,23 @@ public class GuiMain extends GuiScreen {
 
             int i = button.id / 2;
             this.mc.displayGuiScreen(null);
+            final AspectLoc aspect = GuiMain.aspectList.get(low + i);
             TCNodeTracker.doGui = true;
-            TCNodeTracker.xMarker = aspectList.get(low + i).x;
-            TCNodeTracker.yMarker = aspectList.get(low + i).y;
-            TCNodeTracker.zMarker = aspectList.get(low + i).z;
+            TCNodeTracker.xMarker = aspect.x;
+            TCNodeTracker.yMarker = aspect.y;
+            TCNodeTracker.zMarker = aspect.z;
+
+            if (TCNodeTracker.isNavigatorLoaded) {
+                ThaumcraftNodeLayerManager.instance.setActiveWaypoint(
+                        new Waypoint(
+                                aspect.x,
+                                aspect.y,
+                                aspect.z,
+                                aspect.dimID,
+                                I18n.format("tcnodetracker.tracked", I18n.format("tile.blockAiry.0.name")),
+                                0xFFFFFF));
+            }
+
             aspectList.clear();
         }
     }
@@ -277,36 +292,19 @@ public class GuiMain extends GuiScreen {
                 getNodes(n);
             }
         }
-        Comparator<AspectLoc> comparator;
-        switch (sortBy) {
-            case Constants.DISTANCE:
-                comparator = AspectLoc.getDistComparator();
-                break;
-            case Constants.AIR:
-                comparator = AspectLoc.getAerComparator();
-                break;
-            case Constants.WATER:
-                comparator = AspectLoc.getAquaComparator();
-                break;
-            case Constants.FIRE:
-                comparator = AspectLoc.getIgnisComparator();
-                break;
-            case Constants.ORDER:
-                comparator = AspectLoc.getOrdoComparator();
-                break;
-            case Constants.ENTROPY:
-                comparator = AspectLoc.getPerdComparator();
-                break;
-            case Constants.EARTH:
-                comparator = AspectLoc.getTerraComparator();
-                break;
-            default:
-                comparator = AspectLoc.getDistComparator();
-        }
-        Collections.sort(aspectList, comparator);
+        Comparator<AspectLoc> comparator = switch (sortBy) {
+            case Constants.AIR -> AspectLoc.getAerComparator();
+            case Constants.WATER -> AspectLoc.getAquaComparator();
+            case Constants.FIRE -> AspectLoc.getIgnisComparator();
+            case Constants.ORDER -> AspectLoc.getOrdoComparator();
+            case Constants.ENTROPY -> AspectLoc.getPerdComparator();
+            case Constants.EARTH -> AspectLoc.getTerraComparator();
+            default -> AspectLoc.getDistComparator();
+        };
+        aspectList.sort(comparator);
         if (!sortBy.equals(Constants.DISTANCE)) Collections.reverse(aspectList);
         low = 0;
-        high = (aspectList.size() > 10) ? 10 : aspectList.size();
+        high = Math.min(aspectList.size(), 10);
         guiButtons();
     }
 
@@ -439,17 +437,15 @@ public class GuiMain extends GuiScreen {
         l = 70;
         for (AspectLoc a : aspectList.subList(low, high)) {
 
-            // StatCollector.translateToLocal("nodetype." + ((INode)var32).getNodeType() + ".name")
             if (isInBounds(x, y, start + 130, l - 5, start + 156, l + 8)) {
                 List<String> toolTip = new ArrayList<>();
                 toolTip.add("\u00a7" + Integer.toHexString(2) + "Compound Aspects:");
-                if (a.compound.size() > 0) {
+                if (!a.compound.isEmpty()) {
                     for (Map.Entry<String, Integer> node : a.compound.entrySet())
                         toolTip.add(node.getKey().toUpperCase() + ": " + node.getValue());
                 } else {
                     toolTip.add("None");
                 }
-                // toolTip.add("\u00a7" + Integer.toHexString(2) + "Node Type");
                 toolTip.add(
                         StatCollector.translateToLocal(
                                 "\u00a7" + Integer.toHexString(2)

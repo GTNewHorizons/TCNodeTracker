@@ -15,11 +15,13 @@ import com.dyonovan.tcnodetracker.events.KeyInputEvent;
 import com.dyonovan.tcnodetracker.events.RightClickEvent;
 import com.dyonovan.tcnodetracker.gui.GuiPointer;
 import com.dyonovan.tcnodetracker.handlers.ConfigHandler;
+import com.dyonovan.tcnodetracker.integration.navigator.NavigatorIntegration;
 import com.dyonovan.tcnodetracker.lib.Constants;
 import com.dyonovan.tcnodetracker.lib.DimList;
 import com.dyonovan.tcnodetracker.lib.NodeList;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -33,7 +35,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @Mod(
         name = Constants.MODNAME,
         modid = Constants.MODID,
-        version = Constants.VERSION,
+        version = Tags.VERSION,
         dependencies = Constants.DEPENDENCIES,
         acceptableRemoteVersions = "*")
 public class TCNodeTracker {
@@ -44,6 +46,7 @@ public class TCNodeTracker {
     public static boolean doGui = false;
     public static int xMarker, yMarker, zMarker;
     public static List<DimList> dims = new ArrayList<>();
+    public static boolean isNavigatorLoaded;
 
     @Instance(Constants.MODID)
     public static TCNodeTracker instance;
@@ -51,7 +54,7 @@ public class TCNodeTracker {
     @SideOnly(Side.CLIENT)
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-
+        isNavigatorLoaded = Loader.isModLoaded("navigator");
         ConfigHandler.init(event.getSuggestedConfigurationFile());
 
         MinecraftForge.EVENT_BUS.register(new RightClickEvent());
@@ -63,6 +66,9 @@ public class TCNodeTracker {
     @EventHandler
     public void init(FMLInitializationEvent event) {
         KeyBindings.init();
+        if (isNavigatorLoaded) {
+            NavigatorIntegration.init();
+        }
     }
 
     @SideOnly(Side.CLIENT)
