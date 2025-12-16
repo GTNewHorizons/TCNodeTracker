@@ -24,6 +24,7 @@ public class ClientConnectionEvent {
 
             InetSocketAddress address = (InetSocketAddress) event.manager.getSocketAddress();
             hostname = address.getHostName() + "_" + address.getPort();
+            hostname = Utils.invalidChars(hostname);;
 
         } else {
 
@@ -31,12 +32,17 @@ public class ClientConnectionEvent {
             hostname = (server != null) ? server.getFolderName() : "sp_world";
         }
 
-        hostname = Utils.invalidChars(hostname);
+        String hostname_old = "TCNodeTracker/" + Utils.invalidChars(hostname);
         hostname = "TCNodeTracker/" + hostname;
 
         File fileJson = new File(hostname);
         if (!fileJson.exists()) {
-            fileJson.mkdirs();
+            File fileJsonOld = new File(hostname_old);
+            if (fileJsonOld.exists()) {
+                fileJsonOld.renameTo(fileJson);
+            } else {
+                fileJson.mkdirs();
+            }
         }
 
         TCNodeTracker.hostName = hostname;
