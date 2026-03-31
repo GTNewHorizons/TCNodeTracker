@@ -20,19 +20,32 @@ import thaumcraft.api.nodes.INode;
 
 public class RightClickEvent {
 
-    @SuppressWarnings({ "unchecked", "unused" })
+    @SuppressWarnings({ "unused" })
     @SubscribeEvent
     public void playerRightClick(PlayerInteractEvent event) {
 
         if (event.isCanceled() || !event.entityPlayer.worldObj.isRemote
-                || event.action != PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK
-                || event.entityPlayer.inventory.getCurrentItem() == null) {
+                || event.action != PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
             return;
         }
 
         ItemStack heldItem = event.entityPlayer.inventory.getCurrentItem();
+        ItemStack helmet = event.entityPlayer.inventory.armorItemInSlot(3);
 
-        if (!heldItem.getUnlocalizedName().equalsIgnoreCase("item.ItemThaumometer")) {
+        // If the player is holding the Thaumometer or has the Scholar's Lens equipped, the node can be added.
+        boolean canAddNode = false;
+
+        if (heldItem != null && heldItem.getUnlocalizedName().equalsIgnoreCase("item.ItemThaumometer")) {
+            canAddNode = true;
+        } else if (helmet != null && helmet.stackTagCompound != null) {
+            String lensName = helmet.stackTagCompound.getString("Lens");
+
+            if (lensName.equalsIgnoreCase("LensOrderEntropy")) {
+                canAddNode = true;
+            }
+        }
+
+        if (!canAddNode) {
             return;
         }
 
