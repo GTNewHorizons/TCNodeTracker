@@ -40,7 +40,7 @@ public class RightClickEvent {
         } else if (helmet != null && helmet.stackTagCompound != null) {
             String lensName = helmet.stackTagCompound.getString("Lens");
 
-            if (lensName != null && lensName.equalsIgnoreCase("LensOrderEntropy")) {
+            if (lensName.equalsIgnoreCase("LensOrderEntropy")) {
                 canAddNode = true;
             }
         }
