@@ -13,6 +13,7 @@ import com.dyonovan.tcnodetracker.bindings.KeyBindings;
 import com.dyonovan.tcnodetracker.events.ClientConnectionEvent;
 import com.dyonovan.tcnodetracker.events.KeyInputEvent;
 import com.dyonovan.tcnodetracker.events.RightClickEvent;
+import com.dyonovan.tcnodetracker.events.SaveDeletionEvent;
 import com.dyonovan.tcnodetracker.gui.GuiPointer;
 import com.dyonovan.tcnodetracker.handlers.ConfigHandler;
 import com.dyonovan.tcnodetracker.integration.navigator.NavigatorIntegration;
@@ -58,6 +59,7 @@ public class TCNodeTracker {
         ConfigHandler.init(event.getSuggestedConfigurationFile());
 
         MinecraftForge.EVENT_BUS.register(new RightClickEvent());
+        MinecraftForge.EVENT_BUS.register(new SaveDeletionEvent());
         FMLCommonHandler.instance().bus().register(new ClientConnectionEvent());
         FMLCommonHandler.instance().bus().register(new KeyInputEvent());
     }
