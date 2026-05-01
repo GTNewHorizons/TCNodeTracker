@@ -85,7 +85,7 @@ public class JsonUtils {
                 writeJson();
             }
         } catch (FileNotFoundException e) {
-            TCNodeTracker.LOGGER.error("nodes.json file not found");
+            TCNodeTracker.LOGGER.info("nodes.json file not found");
         }
     }
 }
