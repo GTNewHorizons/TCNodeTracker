@@ -19,7 +19,8 @@ public class SaveDeletionEvent {
 
     @SubscribeEvent
     public void onWorldDeletionEvent(WorldDeletionEvent event) {
-        Path TCDataDir = Paths.get(Minecraft.getMinecraft().mcDataDir.getPath(), "TCNodeTracker", event.getWorldName());
+        Path TCDataDir = Paths
+                .get(Minecraft.getMinecraft().mcDataDir.getPath(), Constants.MODFOLDER, event.getWorldName());
         if (Files.isDirectory(TCDataDir)) {
             try {
                 FileUtils.deleteDirectory(TCDataDir.toFile());

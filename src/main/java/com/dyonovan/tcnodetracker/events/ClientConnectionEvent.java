@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.server.integrated.IntegratedServer;
 
 import com.dyonovan.tcnodetracker.TCNodeTracker;
+import com.dyonovan.tcnodetracker.lib.Constants;
 import com.dyonovan.tcnodetracker.lib.JsonUtils;
 import com.dyonovan.tcnodetracker.lib.Utils;
 
@@ -24,7 +25,7 @@ public class ClientConnectionEvent {
 
             InetSocketAddress address = (InetSocketAddress) event.manager.getSocketAddress();
             hostname = address.getHostName() + "_" + address.getPort();
-            hostname = Utils.invalidChars(hostname);;
+            hostname = Utils.invalidChars(hostname);
 
         } else {
 
@@ -32,8 +33,8 @@ public class ClientConnectionEvent {
             hostname = (server != null) ? server.getFolderName() : "sp_world";
         }
 
-        String hostname_old = "TCNodeTracker/" + Utils.invalidChars(hostname);
-        hostname = "TCNodeTracker/" + hostname;
+        String hostname_old = Constants.MODFOLDER + "/" + Utils.invalidChars(hostname);
+        hostname = Constants.MODFOLDER + "/" + hostname;
 
         File fileJson = new File(hostname);
         if (!fileJson.exists()) {

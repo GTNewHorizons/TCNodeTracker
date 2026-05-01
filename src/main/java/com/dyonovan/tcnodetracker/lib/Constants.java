@@ -4,6 +4,7 @@ public class Constants {
 
     public static final String MODID = "tcnodetracker";
     public static final String MODNAME = "TC Node Tracker";
+    public static final String MODFOLDER = "TCNodeTracker";
     public static final String DEPENDENCIES = "required-after:Forge@[10.12.1.1112,);required-after:Thaumcraft;after:navigator";
 
     public static final String AIR = "aer";
