@@ -68,8 +68,7 @@ public class JsonUtils {
             fw.write(json);
             fw.close();
         } catch (IOException e) {
-            // e.printStackTrace();
-            System.out.println(Constants.MODID + ": Could not write to nodes.json!");
+            TCNodeTracker.LOGGER.error("Could not write to nodes.json");
         }
     }
 
@@ -86,8 +85,7 @@ public class JsonUtils {
                 writeJson();
             }
         } catch (FileNotFoundException e) {
-            // e.printStackTrace();
-            System.out.println(Constants.MODID + ": No nodes.json file found.");
+            TCNodeTracker.LOGGER.error("nodes.json file not found");
         }
     }
 }
