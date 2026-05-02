@@ -63,10 +63,8 @@ public class JsonUtils {
                 .create();
         String json = gson.toJson(TCNodeTracker.nodelist);
 
-        try {
-            FileWriter fw = new FileWriter(TCNodeTracker.hostName + "/nodes.json");
+        try (FileWriter fw = new FileWriter(TCNodeTracker.jsonPath.toFile())) {
             fw.write(json);
-            fw.close();
         } catch (IOException e) {
             TCNodeTracker.LOGGER.error("Could not write to nodes.json");
         }
@@ -74,10 +72,8 @@ public class JsonUtils {
 
     public static void readJson() {
 
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(TCNodeTracker.hostName + "/nodes.json"));
+        try (BufferedReader br = new BufferedReader(new FileReader(TCNodeTracker.jsonPath.toFile()))) {
             Gson gson = new GsonBuilder().registerTypeAdapter(Instant.class, new InstantDeserializer()).create();
-            // TCNodeTracker.nodelist = gson.fromJson(br, TCNodeTracker.nodelist.getClass());
             needsSaving = false;
             TCNodeTracker.nodelist = gson.fromJson(br, new TypeToken<List<NodeList>>() {}.getType());
             if (needsSaving) {
@@ -85,7 +81,9 @@ public class JsonUtils {
                 writeJson();
             }
         } catch (FileNotFoundException e) {
-            TCNodeTracker.LOGGER.info("nodes.json file not found");
+            TCNodeTracker.LOGGER.debug("nodes.json not found, probably just not created yet");
+        } catch (IOException e) {
+            TCNodeTracker.LOGGER.error("Failed to read nodes.json", e);
         }
     }
 }

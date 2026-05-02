@@ -1,7 +1,10 @@
 package com.dyonovan.tcnodetracker.events;
 
-import java.io.File;
+import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.integrated.IntegratedServer;
@@ -19,34 +22,34 @@ public class ClientConnectionEvent {
     @SubscribeEvent
     public void onConnected(FMLNetworkEvent.ClientConnectedToServerEvent event) {
 
-        String hostname;
+        String worldDir;
 
         if (!event.isLocal) {
-
             InetSocketAddress address = (InetSocketAddress) event.manager.getSocketAddress();
-            hostname = address.getHostName() + "_" + address.getPort();
-            hostname = Utils.invalidChars(hostname);
+            worldDir = Utils.invalidChars(address.getHostName() + "_" + address.getPort());
 
         } else {
-
             IntegratedServer server = Minecraft.getMinecraft().getIntegratedServer();
-            hostname = (server != null) ? server.getFolderName() : "sp_world";
+            worldDir = (server != null) ? server.getFolderName() : "sp_world";
         }
 
-        String hostname_old = Constants.MODFOLDER + "/" + Utils.invalidChars(hostname);
-        hostname = Constants.MODFOLDER + "/" + hostname;
+        Path storagePathRoot = Paths.get(Minecraft.getMinecraft().mcDataDir.getPath(), Constants.MODFOLDER);
+        Path storagePath = storagePathRoot.resolve(worldDir);
+        Path storagePath_old = storagePathRoot.resolve(Utils.invalidChars(worldDir));
 
-        File fileJson = new File(hostname);
-        if (!fileJson.exists()) {
-            File fileJsonOld = new File(hostname_old);
-            if (fileJsonOld.exists()) {
-                fileJsonOld.renameTo(fileJson);
-            } else {
-                fileJson.mkdirs();
+        if (Files.notExists(storagePath)) {
+            try {
+                if (Files.exists(storagePath_old)) {
+                    Files.move(storagePath_old, storagePath);
+                } else {
+                    Files.createDirectories(storagePath);
+                }
+            } catch (IOException e) {
+                TCNodeTracker.LOGGER.error("Failed to create or migrate node directory", e);
             }
         }
 
-        TCNodeTracker.hostName = hostname;
+        TCNodeTracker.jsonPath = storagePath.resolve("nodes.json");
         TCNodeTracker.nodelist.clear();
 
         JsonUtils.readJson();

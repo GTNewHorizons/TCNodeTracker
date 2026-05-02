@@ -1,5 +1,6 @@
 package com.dyonovan.tcnodetracker;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class TCNodeTracker {
 
     public static Logger LOGGER = LogManager.getLogger(Constants.MODID);
-    public static String hostName;
+    public static Path jsonPath;
     public static ArrayList<NodeList> nodelist = new ArrayList<>();
     public static boolean doGui = false;
     public static int xMarker, yMarker, zMarker;
