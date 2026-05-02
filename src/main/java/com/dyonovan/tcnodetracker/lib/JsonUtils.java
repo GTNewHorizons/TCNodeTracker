@@ -2,10 +2,10 @@ package com.dyonovan.tcnodetracker.lib;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -72,7 +72,7 @@ public class JsonUtils {
 
     public static void readJson() {
 
-        try (BufferedReader br = new BufferedReader(new FileReader(TCNodeTracker.jsonPath.toFile()))) {
+        try (BufferedReader br = Files.newBufferedReader(TCNodeTracker.jsonPath)) {
             Gson gson = new GsonBuilder().registerTypeAdapter(Instant.class, new InstantDeserializer()).create();
             needsSaving = false;
             TCNodeTracker.nodelist = gson.fromJson(br, new TypeToken<List<NodeList>>() {}.getType());

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.integrated.IntegratedServer;
@@ -33,7 +32,7 @@ public class ClientConnectionEvent {
             worldDir = (server != null) ? server.getFolderName() : "sp_world";
         }
 
-        Path storagePathRoot = Paths.get(Minecraft.getMinecraft().mcDataDir.getPath(), Constants.MODFOLDER);
+        Path storagePathRoot = (Minecraft.getMinecraft().mcDataDir.toPath()).resolve(Constants.MODFOLDER);
         Path storagePath = storagePathRoot.resolve(worldDir);
         Path storagePath_old = storagePathRoot.resolve(Utils.invalidChars(worldDir));
 
