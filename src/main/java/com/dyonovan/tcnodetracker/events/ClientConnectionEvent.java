@@ -51,6 +51,10 @@ public class ClientConnectionEvent {
         TCNodeTracker.jsonPath = storagePath.resolve("nodes.json");
         TCNodeTracker.nodelist.clear();
 
+        // Create empty JSON file if none exists yet to prevent log spam
+        if (Files.notExists(TCNodeTracker.jsonPath)) {
+            JsonUtils.writeJson();
+        }
         JsonUtils.readJson();
     }
 }

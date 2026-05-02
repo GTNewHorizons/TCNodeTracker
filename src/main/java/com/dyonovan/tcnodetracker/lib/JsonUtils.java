@@ -1,7 +1,6 @@
 package com.dyonovan.tcnodetracker.lib;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -80,8 +79,6 @@ public class JsonUtils {
                 needsSaving = false;
                 writeJson();
             }
-        } catch (FileNotFoundException e) {
-            TCNodeTracker.LOGGER.debug("nodes.json not found, probably just not created yet");
         } catch (IOException e) {
             TCNodeTracker.LOGGER.error("Failed to read nodes.json", e);
         }
