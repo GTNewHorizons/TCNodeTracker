@@ -24,8 +24,9 @@ public class SaveDeletionEvent {
             try {
                 FileUtils.deleteDirectory(TCDataDir.toFile());
             } catch (IOException e) {
-                TCNodeTracker.LOGGER
-                        .warn(Constants.MODID + ": Failed to delete JourneyMap world data in {}", TCDataDir);
+                TCNodeTracker.LOGGER.warn(
+                        Constants.MODID + ": Failed to delete TCNodeTracker world data for world {}",
+                        event.worldName);
             }
         }
     }
