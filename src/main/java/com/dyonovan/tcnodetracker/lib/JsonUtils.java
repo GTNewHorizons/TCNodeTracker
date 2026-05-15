@@ -1,11 +1,10 @@
 package com.dyonovan.tcnodetracker.lib;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -63,31 +62,25 @@ public class JsonUtils {
                 .create();
         String json = gson.toJson(TCNodeTracker.nodelist);
 
-        try {
-            FileWriter fw = new FileWriter(TCNodeTracker.hostName + "/nodes.json");
+        try (FileWriter fw = new FileWriter(TCNodeTracker.jsonPath.toFile())) {
             fw.write(json);
-            fw.close();
         } catch (IOException e) {
-            // e.printStackTrace();
-            System.out.println(Constants.MODID + ": Could not write to nodes.json!");
+            TCNodeTracker.LOGGER.error("Could not write to nodes.json");
         }
     }
 
     public static void readJson() {
 
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(TCNodeTracker.hostName + "/nodes.json"));
+        try (BufferedReader br = Files.newBufferedReader(TCNodeTracker.jsonPath)) {
             Gson gson = new GsonBuilder().registerTypeAdapter(Instant.class, new InstantDeserializer()).create();
-            // TCNodeTracker.nodelist = gson.fromJson(br, TCNodeTracker.nodelist.getClass());
             needsSaving = false;
             TCNodeTracker.nodelist = gson.fromJson(br, new TypeToken<List<NodeList>>() {}.getType());
             if (needsSaving) {
                 needsSaving = false;
                 writeJson();
             }
-        } catch (FileNotFoundException e) {
-            // e.printStackTrace();
-            System.out.println(Constants.MODID + ": No nodes.json file found.");
+        } catch (IOException e) {
+            TCNodeTracker.LOGGER.error("Failed to read nodes.json", e);
         }
     }
 }

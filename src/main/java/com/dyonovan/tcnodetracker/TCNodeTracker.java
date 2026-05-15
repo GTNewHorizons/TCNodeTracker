@@ -1,5 +1,6 @@
 package com.dyonovan.tcnodetracker;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import com.dyonovan.tcnodetracker.bindings.KeyBindings;
 import com.dyonovan.tcnodetracker.events.ClientConnectionEvent;
 import com.dyonovan.tcnodetracker.events.KeyInputEvent;
 import com.dyonovan.tcnodetracker.events.RightClickEvent;
+import com.dyonovan.tcnodetracker.events.SaveDeletionEvent;
 import com.dyonovan.tcnodetracker.gui.GuiPointer;
 import com.dyonovan.tcnodetracker.handlers.ConfigHandler;
 import com.dyonovan.tcnodetracker.integration.navigator.NavigatorIntegration;
@@ -41,7 +43,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class TCNodeTracker {
 
     public static Logger LOGGER = LogManager.getLogger(Constants.MODID);
-    public static String hostName;
+    public static Path jsonPath;
     public static ArrayList<NodeList> nodelist = new ArrayList<>();
     public static boolean doGui = false;
     public static int xMarker, yMarker, zMarker;
@@ -58,6 +60,7 @@ public class TCNodeTracker {
         ConfigHandler.init(event.getSuggestedConfigurationFile());
 
         MinecraftForge.EVENT_BUS.register(new RightClickEvent());
+        MinecraftForge.EVENT_BUS.register(new SaveDeletionEvent());
         FMLCommonHandler.instance().bus().register(new ClientConnectionEvent());
         FMLCommonHandler.instance().bus().register(new KeyInputEvent());
     }
