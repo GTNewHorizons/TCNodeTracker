@@ -8,14 +8,13 @@ import javax.annotation.Nullable;
 import net.minecraft.client.Minecraft;
 
 import com.dyonovan.tcnodetracker.TCNodeTracker;
-import com.dyonovan.tcnodetracker.integration.navigator.journeymap.JMThaumcraftNodeRenderer;
 import com.dyonovan.tcnodetracker.integration.navigator.journeymap.JMThaumcraftNodeWaypointManager;
-import com.dyonovan.tcnodetracker.integration.navigator.xaero.XaeroThaumcraftNodeRenderer;
 import com.dyonovan.tcnodetracker.integration.navigator.xaero.XaeroThaumcraftNodeWaypointManager;
 import com.dyonovan.tcnodetracker.lib.NodeList;
 import com.gtnewhorizons.navigator.api.model.SupportedMods;
 import com.gtnewhorizons.navigator.api.model.layers.InteractableLayerManager;
 import com.gtnewhorizons.navigator.api.model.layers.LayerRenderer;
+import com.gtnewhorizons.navigator.api.model.layers.UniversalInteractableRenderer;
 import com.gtnewhorizons.navigator.api.model.locations.IWaypointAndLocationProvider;
 import com.gtnewhorizons.navigator.api.model.waypoints.WaypointManager;
 
@@ -49,11 +48,9 @@ public class ThaumcraftNodeLayerManager extends InteractableLayerManager {
     @Nullable
     @Override
     protected LayerRenderer addLayerRenderer(InteractableLayerManager manager, SupportedMods mod) {
-        return switch (mod) {
-            case JourneyMap -> new JMThaumcraftNodeRenderer(manager);
-            case XaeroWorldMap -> new XaeroThaumcraftNodeRenderer(manager);
-            default -> null;
-        };
+        return new UniversalInteractableRenderer(manager)
+                .withRenderStep(location -> new ThaumcraftNodeRenderStep((ThaumcraftNodeLocation) location))
+                .withMapMarker(location -> ThaumcraftNodeMapMarker.create((ThaumcraftNodeLocation) location));
     }
 
     @Nullable
@@ -90,6 +87,6 @@ public class ThaumcraftNodeLayerManager extends InteractableLayerManager {
         if (thaumcraftNodeLocation.isActiveAsWaypoint()) {
             clearActiveWaypoint();
         }
-        forceRefresh();
+        clearCurrentCache();
     }
 }

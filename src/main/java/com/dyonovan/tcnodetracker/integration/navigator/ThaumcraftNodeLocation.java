@@ -95,7 +95,7 @@ public class ThaumcraftNodeLocation implements IWaypointAndLocationProvider {
                 node.z,
                 node.dim,
                 I18n.format("tcnodetracker.tracked", I18n.format("tile.blockAiry.0.name")),
-                nodeTile.targetColor.getRGB());
+                getStrongestAspect().getColor());
     }
 
     @Override
