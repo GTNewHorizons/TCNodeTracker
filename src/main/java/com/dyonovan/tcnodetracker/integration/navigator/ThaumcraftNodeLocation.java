@@ -88,6 +88,13 @@ public class ThaumcraftNodeLocation implements IWaypointAndLocationProvider {
     }
 
     @Override
+    public long toLong() {
+        // Minecraft coordinates fit in 26 bits for X/Z and 12 bits for Y. Navigator caches each dimension separately,
+        // so packing only X/Y/Z gives every node in that dimension a stable, unique 64-bit identity.
+        return (long) (node.x & 0x3FFFFFF) << 38 | (long) (node.z & 0x3FFFFFF) << 12 | (node.y & 0xFFF);
+    }
+
+    @Override
     public Waypoint toWaypoint() {
         return new Waypoint(
                 node.x,
