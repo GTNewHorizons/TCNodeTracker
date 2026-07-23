@@ -64,6 +64,6 @@ public class ThaumcraftNodeLayerManager extends InteractableLayerManager {
         if (thaumcraftNodeLocation.isActiveAsWaypoint()) {
             clearActiveWaypoint();
         }
-        removeLocation(thaumcraftNodeLocation);
+        invalidateLocation(thaumcraftNodeLocation);
     }
 }
