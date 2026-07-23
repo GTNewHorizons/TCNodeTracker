@@ -43,7 +43,7 @@ public final class ThaumcraftNodeMapMarker {
             if (icon == null) return null;
             ICONS.put(key, icon);
         }
-        return new MapMarker(icon).setDisplaySize(ICON_SIZE, ICON_SIZE);
+        return new MapMarker(icon).setDisplaySize(ICON_SIZE, ICON_SIZE).setDisplayZoomScale(1, 2, 3, 5);
     }
 
     private static @Nullable BufferedImage compose(Aspect aspect, boolean marked) {

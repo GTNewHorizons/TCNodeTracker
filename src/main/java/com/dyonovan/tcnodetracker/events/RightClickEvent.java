@@ -10,6 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
 import com.dyonovan.tcnodetracker.TCNodeTracker;
+import com.dyonovan.tcnodetracker.integration.navigator.ThaumcraftNodeLayerManager;
 import com.dyonovan.tcnodetracker.lib.JsonUtils;
 import com.dyonovan.tcnodetracker.lib.NodeList;
 
@@ -76,6 +77,7 @@ public class RightClickEvent {
                         n.mod = nodeMod;
                         n.date = Instant.now();
                         JsonUtils.writeJson();
+                        if (TCNodeTracker.isNavigatorLoaded) ThaumcraftNodeLayerManager.instance.forceRefresh();
                         return;
                     }
                 }
@@ -86,6 +88,7 @@ public class RightClickEvent {
             TCNodeTracker.nodelist
                     .add(new NodeList(hm, dim, nodeType, nodeMod, event.x, event.y, event.z, Instant.now()));
             JsonUtils.writeJson();
+            if (TCNodeTracker.isNavigatorLoaded) ThaumcraftNodeLayerManager.instance.forceRefresh();
         }
     }
 }

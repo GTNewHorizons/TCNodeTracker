@@ -12,9 +12,6 @@ import com.gtnewhorizons.navigator.api.model.waypoints.Waypoint;
 
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
-import thaumcraft.api.nodes.NodeType;
-import thaumcraft.common.config.ConfigBlocks;
-import thaumcraft.common.tiles.TileNode;
 
 public class ThaumcraftNodeLocation implements IWaypointAndLocationProvider {
 
@@ -24,43 +21,21 @@ public class ThaumcraftNodeLocation implements IWaypointAndLocationProvider {
     private static final String title = EnumChatFormatting.BOLD + I18n.format("tile.blockAiry.0.name");
 
     private final NodeList node;
-    private final TileNode nodeTile;
-    private final String description;
+    private AspectList aspects;
+    private String description;
 
     private boolean isActiveAsWaypoint;
 
     public ThaumcraftNodeLocation(NodeList node) {
         this.node = node;
+        refresh();
+    }
 
-        nodeTile = new TileNode();
-        final AspectList aspectList = new AspectList();
+    void refresh() {
+        aspects = new AspectList();
         for (String aspectTag : node.aspect.keySet()) {
-            aspectList.add(Aspect.getAspect(aspectTag), node.aspect.get(aspectTag));
+            aspects.add(Aspect.getAspect(aspectTag), node.aspect.get(aspectTag));
         }
-        nodeTile.setAspects(aspectList);
-        switch (node.type) {
-            case "NORMAL":
-                nodeTile.setNodeType(NodeType.NORMAL);
-                break;
-            case "UNSTABLE":
-                nodeTile.setNodeType(NodeType.UNSTABLE);
-                break;
-            case "DARK":
-                nodeTile.setNodeType(NodeType.DARK);
-                break;
-            case "TAINTED":
-                nodeTile.setNodeType(NodeType.TAINTED);
-                break;
-            case "PURE":
-                nodeTile.setNodeType(NodeType.PURE);
-                break;
-            case "HUNGRY":
-                nodeTile.setNodeType(NodeType.HUNGRY);
-                break;
-        }
-        nodeTile.blockType = ConfigBlocks.blockAiry;
-        nodeTile.blockMetadata = 0;
-
         description = node.mod.equals("BLANK")
                 ? EnumChatFormatting.GRAY + I18n.format("nodetype." + node.type + ".name")
                 : EnumChatFormatting.GRAY + I18n.format("nodetype." + node.type + ".name")
@@ -127,11 +102,11 @@ public class ThaumcraftNodeLocation implements IWaypointAndLocationProvider {
     }
 
     public Aspect getStrongestAspect() {
-        return nodeTile.getAspects().getAspectsSortedAmount()[0];
+        return aspects.getAspectsSortedAmount()[0];
     }
 
     public AspectList getAspects() {
-        return nodeTile.getAspects();
+        return aspects;
     }
 
     public String getDescription() {

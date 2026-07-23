@@ -59,6 +59,11 @@ public class ThaumcraftNodeLayerManager extends InteractableLayerManager {
         return thaumcraftNodeLocations;
     }
 
+    @Override
+    public void updateElement(IWaypointAndLocationProvider location) {
+        if (location instanceof ThaumcraftNodeLocation node) node.refresh();
+    }
+
     public void deleteNode(ThaumcraftNodeLocation thaumcraftNodeLocation) {
         TCNodeTracker.nodelist.removeIf(thaumcraftNodeLocation::belongsToNode);
         if (thaumcraftNodeLocation.isActiveAsWaypoint()) {

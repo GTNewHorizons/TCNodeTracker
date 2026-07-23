@@ -35,8 +35,7 @@ public final class ThaumcraftNodeRenderStep extends UniversalInteractableStep<Th
 
     @Override
     public void preRender(double centerX, double centerY, float drawScale, double zoom) {
-        double scale = isXaero ? getScaling(zoom) : drawScale;
-        setSize(ICON_SIZE * scale);
+        setSize(isXaero ? ICON_SIZE : ICON_SIZE * drawScale);
         setOffset(-width / 2);
     }
 
@@ -52,8 +51,7 @@ public final class ThaumcraftNodeRenderStep extends UniversalInteractableStep<Th
                 marked ? 0xFFFFFF : location.getStrongestAspect().getColor(),
                 204);
 
-        double aspectSize = isXaero ? ASPECT_SIZE * getScaling(zoom) : ASPECT_SIZE;
-        Utils.drawAspect(x + width / 2, y + height / 2, aspectSize, location.getStrongestAspect(), 0);
+        Utils.drawAspect(x + width / 2, y + height / 2, ASPECT_SIZE, location.getStrongestAspect(), 0);
     }
 
     @Override
