@@ -152,8 +152,12 @@ public class GuiMain extends GuiScreen {
                             TCNodeTracker.doGui = false;
                             TCNodeTracker.yMarker = -1;
                         }
-                        TCNodeTracker.nodelist.remove(k);
-                        JsonUtils.writeJson();
+                        if (TCNodeTracker.isNavigatorLoaded) {
+                            ThaumcraftNodeLayerManager.instance.deleteNode(TCNodeTracker.nodelist.get(k));
+                        } else {
+                            TCNodeTracker.nodelist.remove(k);
+                            JsonUtils.writeJson();
+                        }
                         sortNodes(lastSort);
                         return;
                     }

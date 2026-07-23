@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import com.dyonovan.tcnodetracker.TCNodeTracker;
 import com.dyonovan.tcnodetracker.integration.navigator.journeymap.JMThaumcraftNodeWaypointManager;
 import com.dyonovan.tcnodetracker.integration.navigator.xaero.XaeroThaumcraftNodeWaypointManager;
+import com.dyonovan.tcnodetracker.lib.JsonUtils;
 import com.dyonovan.tcnodetracker.lib.NodeList;
 import com.gtnewhorizons.navigator.api.model.SupportedMods;
 import com.gtnewhorizons.navigator.api.model.layers.InteractableLayerManager;
@@ -65,10 +66,20 @@ public class ThaumcraftNodeLayerManager extends InteractableLayerManager {
     }
 
     public void deleteNode(ThaumcraftNodeLocation thaumcraftNodeLocation) {
+        deleteNodeInternal(thaumcraftNodeLocation);
+    }
+
+    public void deleteNode(NodeList node) {
+        deleteNodeInternal(new ThaumcraftNodeLocation(node));
+    }
+
+    private void deleteNodeInternal(ThaumcraftNodeLocation thaumcraftNodeLocation) {
         TCNodeTracker.nodelist.removeIf(thaumcraftNodeLocation::belongsToNode);
+        if (activeWaypoint != null) thaumcraftNodeLocation.onWaypointUpdated(activeWaypoint);
         if (thaumcraftNodeLocation.isActiveAsWaypoint()) {
             clearActiveWaypoint();
         }
         invalidateLocation(thaumcraftNodeLocation);
+        JsonUtils.writeJson();
     }
 }
